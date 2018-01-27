@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4126507476374376}
   - component: {fileID: 212474437896863614}
   m_Layer: 0
-  m_Name: violer
+  m_Name: losangeViolet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
