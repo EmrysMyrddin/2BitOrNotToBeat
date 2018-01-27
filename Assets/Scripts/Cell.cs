@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public Sprite Cable, CableUp, CableDown, CableRight, CableLeft;
-    public Dictionary<string, Sprite> CableSprites = new Dictionary<string, Sprite>();
+    public Sprite[] sprites = new Sprite[13];
+    public Dictionary<string, Sprite> cableSprites = new Dictionary<string, Sprite>();
     public bool isCable = false;
     public Vector2Int direction;
 
     private SpriteRenderer spriteRenderer;
 	private string[] directions = new string[]{
-		"Right",
-		"Left",
-		"Up",
-		"Down",
+		"None",
+		"RightRight",
+		"LeftLeft",
+		"UpUp",
+		"DownDown",
+		"RightUp",
+		"RightDown",
+		"LeftUp",
+		"LeftDown",
 		"UpRight",
 		"UpLeft",
 		"DownRight",
@@ -24,6 +29,9 @@ public class Cell : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+		for(int i = 0; i < directions.Length ; i++) {
+			cableSprites[directions[i]] = sprites[i];
+		}
     }
 
     public void SetIsCable(bool isCable)
@@ -31,7 +39,7 @@ public class Cell : MonoBehaviour
         this.isCable = isCable;
         if (isCable)
         {
-            spriteRenderer.sprite = Cable;
+            spriteRenderer.sprite = cableSprites["None"];
         }
         else
         {
@@ -48,9 +56,28 @@ public class Cell : MonoBehaviour
     public void SetDirection(Vector2Int direction)
     {
         this.direction = direction;
-        if (direction.x > 0) spriteRenderer.sprite = CableRight;
-        if (direction.x < 0) spriteRenderer.sprite = CableLeft;
-        if (direction.y > 0) spriteRenderer.sprite = CableUp;
-        if (direction.y < 0) spriteRenderer.sprite = CableDown;
+        if (direction.x > 0) spriteRenderer.sprite = cableSprites["RightRight"];
+        if (direction.x < 0) spriteRenderer.sprite = cableSprites["LeftLeft"];
+        if (direction.y > 0) spriteRenderer.sprite = cableSprites["UpUp"];
+        if (direction.y < 0) spriteRenderer.sprite = cableSprites["DownDown"];
     }
+
+	public void UpdateDirection(Vector2Int nextDirection) {
+		string spriteName = "";
+		if (direction.x > 0) spriteName = "Right";
+        else if (direction.x < 0) spriteName = "Left";
+        else if (direction.y > 0) spriteName = "Up";
+        else if (direction.y < 0) spriteName = "Down";
+
+		if (nextDirection.x > 0) spriteName += "Right";
+        else if (nextDirection.x < 0) spriteName += "Left";
+        else if (nextDirection.y > 0) spriteName += "Up";
+        else if (nextDirection.y < 0) spriteName += "Down";
+
+		if(direction == Vector2Int.zero) spriteName += spriteName;
+
+		Debug.Log(spriteName);
+
+		spriteRenderer.sprite = cableSprites[spriteName];
+	}
 }
