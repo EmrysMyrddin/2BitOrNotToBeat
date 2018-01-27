@@ -7,8 +7,9 @@ public class Cell : MonoBehaviour
     public Sprite[] sprites = new Sprite[13];
     public Dictionary<string, Sprite> cableSprites = new Dictionary<string, Sprite>();
     public bool isCable = false;
-    public Vector2Int direction;
+    public Vector2Int exitDirection;
 
+    public Vector2Int direction;
     private SpriteRenderer spriteRenderer;
 	private string[] directions = new string[]{
 		"None",
@@ -78,6 +79,11 @@ public class Cell : MonoBehaviour
         direction += removeDirection;
         string spriteName = StringDirection(direction);
         spriteRenderer.sprite = cableSprites[spriteName + spriteName];
+        return this;
+    }
+
+    public Cell SetExitDirection(Vector2Int exitDirection) {
+        this.exitDirection = exitDirection;
         return this;
     }
 

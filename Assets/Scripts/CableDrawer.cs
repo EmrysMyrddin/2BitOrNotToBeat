@@ -63,7 +63,7 @@ public class CableDrawer : MonoBehaviour
     void CreateNewCable(Vector2Int mousePos, Vector2Int direction)
     {
         model.GetCell(mousePos).SetIsCable(true).SetDirection(direction).SetIsCurrent(true);
-        model.GetCell(currentPos).AddDirection(direction).SetIsCurrent(false);
+        model.GetCell(currentPos).AddDirection(direction).SetExitDirection(direction).SetIsCurrent(false);
 
         currentPath.Push(currentPos);
         currentPos = mousePos;
