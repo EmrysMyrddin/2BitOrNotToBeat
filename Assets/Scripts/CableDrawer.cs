@@ -5,25 +5,15 @@ using UnityEngine;
 
 public class CableDrawer : MonoBehaviour
 {
-    private static int COLS = 20, ROWS = 10;
-    public GameObject CellPrefab;
-
+    private Model model;
     private Plane plane = new Plane(Vector3.back, Vector3.zero);
-    private Cell[,] grid = new Cell[COLS, ROWS];
     private Vector2Int currentPos;
     private Stack<Vector2Int> currentPath = new Stack<Vector2Int>();
 
     // Use this for initialization
     void Start()
     {
-        for (int x = 0; x < COLS; x++)
-        {
-            for (int y = 0; y < ROWS; y++)
-            {
-                GameObject newCell = Instantiate(CellPrefab, new Vector3((float)x, (float)y, 0f), Quaternion.identity);
-                grid[x, y] = newCell.GetComponent<Cell>();
-            }
-        }
+        model = GetComponent<Model>();
     }
 
     void OnMouseDown()
@@ -31,18 +21,17 @@ public class CableDrawer : MonoBehaviour
         Vector2Int mousePos = MousePosition();
         currentPos = mousePos;
         currentPath = new Stack<Vector2Int>();
-        GetCell(currentPos).SetIsCable(true);
-        GetCell(currentPos).SetIsCurrent(true);
+        model.GetCell(mousePos).SetIsCable(true).SetIsCurrent(true);
     }
 
     void OnMouseUp() {
-        GetCell(currentPos).SetIsCurrent(false);
+        model.GetCell(currentPos).SetIsCurrent(false);
     }
 
     void OnMouseDrag()
     {
         Vector2Int mousePos = MousePosition();
-        if (mousePos.x >= COLS || mousePos.y >= ROWS || mousePos.x < 0 || mousePos.y < 0) return;
+        if (mousePos.x >= Model.COLS || mousePos.y >= Model.ROWS || mousePos.x < 0 || mousePos.y < 0) return;
 
         // Calculate the distance from the current cell
         Vector2Int distance = mousePos - currentPos;
@@ -53,44 +42,31 @@ public class CableDrawer : MonoBehaviour
             // Detect if we havec moved backward
             if (currentPath.Count > 0 && mousePos == currentPath.Peek())
             {
-                CancelLastCable(mousePos);
+                CancelLastCable(mousePos, distance);
             }
-            else if (!GetCell(mousePos).isCable)
+            else if (!model.GetCell(mousePos).isCable)
             {
                 CreateNewCable(mousePos, distance);
             }
         }
     }
 
-    void CancelLastCable(Vector2Int mousePos)
+    void CancelLastCable(Vector2Int mousePos, Vector2Int direction)
     {
-        GetCell(currentPos).SetIsCable(false);
+        model.GetCell(currentPos).SetIsCable(false).SetIsCurrent(false);
+        model.GetCell(mousePos).SetIsCurrent(true).RemoveDirection(direction);
+
         currentPath.Pop();
-        grid[currentPos.x, currentPos.y].SetIsCurrent(false);
-        grid[mousePos.x, mousePos.y].SetIsCurrent(true);
         currentPos = mousePos;
     }
 
     void CreateNewCable(Vector2Int mousePos, Vector2Int direction)
     {
-        Cell cell = GetCell(mousePos);
-        Cell previousCell = GetCell(currentPos);
-        
-        cell.SetIsCable(true);
-        cell.SetDirection(direction);
+        model.GetCell(mousePos).SetIsCable(true).SetDirection(direction).SetIsCurrent(true);
+        model.GetCell(currentPos).AddDirection(direction).SetIsCurrent(false);
 
         currentPath.Push(currentPos);
-        previousCell.UpdateDirection(direction);
-        
-        previousCell.SetIsCurrent(false);
-        cell.SetIsCurrent(true);
-
         currentPos = mousePos;
-    }
-
-    Cell GetCell(Vector2Int pos)
-    {
-        return grid[pos.x, pos.y];
     }
 
     Vector3 RoundVector3(Vector3 vector)
