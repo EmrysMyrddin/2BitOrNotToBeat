@@ -5,9 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class NavigationHelper : MonoBehaviour
 {
-  public void PlayGame(string lvl)
+  public Persisted persisted;
+  void Start()
+  {
+    persisted = GameObject.Find("curentLevel").GetComponent<Persisted>();
+  }
+  public void PlayGame(int lvl)
   {
     SceneManager.LoadScene("lvl" + lvl);
+  }
+
+  public void NextLevel()
+  {
+    PlayGame(persisted.currentLevel + 1);
   }
 
   public void TutoGame()
