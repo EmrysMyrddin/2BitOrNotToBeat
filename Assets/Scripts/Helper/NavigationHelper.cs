@@ -8,7 +8,7 @@ public class NavigationHelper : MonoBehaviour
   public Persisted persisted;
   void Start()
   {
-    persisted = GameObject.Find("curentLevel").GetComponent<Persisted>();
+    persisted = GameObject.Find("currentLevel").GetComponent<Persisted>();
   }
   public void PlayGame(int lvl)
   {
