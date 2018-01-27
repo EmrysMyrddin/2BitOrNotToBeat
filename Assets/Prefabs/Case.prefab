@@ -52,8 +52,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 370f1a3221c751b419d8680d330441d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CableSprite: {fileID: 21300000, guid: 532cb0f17afb68441bd0701cd5727711, type: 3}
+  Cable: {fileID: 21300000, guid: 95b0bc0ebdf514a41afcf9bae29d671b, type: 3}
+  CableUp: {fileID: 21300000, guid: 121261cf58950a5429c1d6e181dd0681, type: 3}
+  CableDown: {fileID: 21300000, guid: eefc1bd6c1823d44bb31d226007ba752, type: 3}
+  CableRight: {fileID: 21300000, guid: c441b65b69e146447a0e134ef911639b, type: 3}
+  CableLeft: {fileID: 21300000, guid: f2f6b8b1aae595f42a2babed948d9f1b, type: 3}
   isCable: 0
+  direction: {x: 0, y: 0}
 --- !u!212 &212339091748872508
 SpriteRenderer:
   m_ObjectHideFlags: 1
