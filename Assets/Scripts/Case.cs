@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Case : MonoBehaviour {
+	public Sprite CableSprite;
 
-	// Use this for initialization
-	void Start () {
-		
+	private SpriteRenderer spriteRenderer;
+
+	void Start() {
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void SetIsCable(bool isCable) {
+		spriteRenderer.sprite = isCable ? CableSprite : null;
+	}
+
+	public void SetIsPrevious(bool isPrevious) {
+		spriteRenderer.material.color = isPrevious ? Color.blue : Color.white;
 	}
 }
