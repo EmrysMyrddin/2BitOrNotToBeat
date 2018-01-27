@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Case : MonoBehaviour {
+public class Cell : MonoBehaviour {
 	public Sprite CableSprite;
+	public bool isCable = false;
 
 	private SpriteRenderer spriteRenderer;
 
@@ -13,9 +14,10 @@ public class Case : MonoBehaviour {
 
 	public void SetIsCable(bool isCable) {
 		spriteRenderer.sprite = isCable ? CableSprite : null;
+		this.isCable = isCable;
 	}
 
-	public void SetIsPrevious(bool isPrevious) {
+	public void SetIsCurrent(bool isPrevious) {
 		spriteRenderer.material.color = isPrevious ? Color.blue : Color.white;
 	}
 }
