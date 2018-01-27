@@ -44,7 +44,7 @@ public class CableDrawer : MonoBehaviour
             {
                 CancelLastCable(mousePos, distance);
             }
-            else if (!model.GetCell(mousePos).isCable)
+            else if (model.GetCell(mousePos).type != "Cable")
             {
                 CreateNewCable(mousePos, distance);
             }

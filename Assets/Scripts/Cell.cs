@@ -6,7 +6,7 @@ public class Cell : MonoBehaviour
 {
     public Sprite[] sprites = new Sprite[13];
     public Dictionary<string, Sprite> cableSprites = new Dictionary<string, Sprite>();
-    public bool isCable = false;
+    public string type = "";
     public Vector2Int exitDirection;
 
     public Vector2Int direction;
@@ -37,13 +37,16 @@ public class Cell : MonoBehaviour
 
     public Cell SetIsCable(bool isCable)
     {
-        this.isCable = isCable;
+        if(type != "" && type != "Cable") return this;
+
         if (isCable)
         {
+            type = "Cable";
             spriteRenderer.sprite = cableSprites["None"];
         }
         else
         {
+            type = "";
             direction = Vector2Int.zero;
             spriteRenderer.sprite = null;
         }
@@ -59,6 +62,8 @@ public class Cell : MonoBehaviour
 
     public Cell SetDirection(Vector2Int direction)
     {
+        if(type != "Cable") return this;
+
         this.direction = direction;
 		string spriteName = StringDirection(direction);
 		spriteRenderer.sprite = cableSprites[spriteName + spriteName];
@@ -66,6 +71,8 @@ public class Cell : MonoBehaviour
     }
 
 	public Cell AddDirection(Vector2Int nextDirection) {
+        if(type != "Cable") return this;
+
 		string spriteName = StringDirection(direction) + StringDirection(nextDirection);
 		if(direction == Vector2Int.zero) spriteName += spriteName;
         direction += nextDirection;
@@ -76,6 +83,8 @@ public class Cell : MonoBehaviour
 	}
 
     public Cell RemoveDirection(Vector2Int removeDirection) {
+        if(type != "Cable") return this;
+
         direction += removeDirection;
         string spriteName = StringDirection(direction);
         spriteRenderer.sprite = cableSprites[spriteName + spriteName];
@@ -83,6 +92,8 @@ public class Cell : MonoBehaviour
     }
 
     public Cell SetExitDirection(Vector2Int exitDirection) {
+        if(type != "Cable") return this;
+        
         this.exitDirection = exitDirection;
         return this;
     }
