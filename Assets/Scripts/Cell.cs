@@ -9,6 +9,8 @@ public class Cell : MonoBehaviour
     public bool isCable = false;
     public Vector2Int direction;
 
+	private string spriteName;
+
     private SpriteRenderer spriteRenderer;
 	private string[] directions = new string[]{
 		"None",
@@ -56,24 +58,20 @@ public class Cell : MonoBehaviour
     public void SetDirection(Vector2Int direction)
     {
         this.direction = direction;
-        if (direction.x > 0) spriteRenderer.sprite = cableSprites["RightRight"];
-        if (direction.x < 0) spriteRenderer.sprite = cableSprites["LeftLeft"];
-        if (direction.y > 0) spriteRenderer.sprite = cableSprites["UpUp"];
-        if (direction.y < 0) spriteRenderer.sprite = cableSprites["DownDown"];
+		string spriteName = StringDirection(direction);
+		spriteRenderer.sprite = cableSprites[spriteName + spriteName];
     }
 
+	public string StringDirection(Vector2Int direction) {
+		if (direction.x > 0) return "Right";
+        else if (direction.x < 0) return "Left";
+        else if (direction.y > 0) return "Up";
+        else if (direction.y < 0) return "Down";
+		return "";
+	}
+
 	public void UpdateDirection(Vector2Int nextDirection) {
-		string spriteName = "";
-		if (direction.x > 0) spriteName = "Right";
-        else if (direction.x < 0) spriteName = "Left";
-        else if (direction.y > 0) spriteName = "Up";
-        else if (direction.y < 0) spriteName = "Down";
-
-		if (nextDirection.x > 0) spriteName += "Right";
-        else if (nextDirection.x < 0) spriteName += "Left";
-        else if (nextDirection.y > 0) spriteName += "Up";
-        else if (nextDirection.y < 0) spriteName += "Down";
-
+		string spriteName = StringDirection(direction) + StringDirection(nextDirection);
 		if(direction == Vector2Int.zero) spriteName += spriteName;
 
 		Debug.Log(spriteName);
