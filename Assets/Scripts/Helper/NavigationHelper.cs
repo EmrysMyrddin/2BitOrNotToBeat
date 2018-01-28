@@ -54,4 +54,9 @@ public class NavigationHelper : MonoBehaviour
   {
     SceneManager.LoadScene("Start");
   }
+
+  public void SettingsGame()
+  {
+    SceneManager.LoadScene("settings");
+  }
 }
