@@ -20,6 +20,11 @@ public class NavigationHelper : MonoBehaviour
     PlayGame(persisted.currentLevel + 1);
   }
 
+  public void ReloadLevel()
+  {
+    PlayGame(persisted.currentLevel);
+  }
+
   public void TutoGame()
   {
     SceneManager.LoadScene("Tuto");
