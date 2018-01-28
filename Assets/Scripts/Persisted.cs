@@ -8,6 +8,7 @@ public class Persisted : MonoBehaviour
   public static Persisted Instance { get { return _instance; } }
 
   public int currentLevel = 0;
+  public string language = "fr";
 
   void Awake()
   {
